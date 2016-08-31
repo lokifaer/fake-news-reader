@@ -1,5 +1,6 @@
 package com.oc.rss.fakenewsreader;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,5 +41,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
+        private String currentTitle;
+
+        public MyViewHolder(final View itemView) {
+            super(itemView);
+
+            title = ((TextView) itemView.findViewById(R.id.title));
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setTitle(currentTitle)
+                            .show();
+                }
+            });
+        }
+
+        public void display(String t) {
+            currentTitle = t;
+            title.setText(currentTitle);
+        }
     }
 }

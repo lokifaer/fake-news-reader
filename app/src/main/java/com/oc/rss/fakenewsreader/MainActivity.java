@@ -19,6 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
         final RecyclerView rv = (RecyclerView) findViewById(R.id.fakelist);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(new MyAdapter);
+        rv.setAdapter(new MyAdapter());
     }
 }
