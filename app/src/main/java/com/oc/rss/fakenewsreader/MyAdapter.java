@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.oc.rss.fake.FakeNews;
@@ -29,7 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.activity_main, parent, false);
+        View view = inflater.inflate(R.layout.fakelist_cell, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -41,26 +42,27 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-        private String currentTitle;
+        private final WebView content;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
 
             title = ((TextView) itemView.findViewById(R.id.title));
+            content = ((WebView) itemView.findViewById(R.id.content));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new AlertDialog.Builder(itemView.getContext())
-                            .setTitle(currentTitle)
+                            .setTitle(title.getText())
+                            .setMessage(content.get())
                             .show();
                 }
             });
         }
 
         public void display(String t) {
-            currentTitle = t;
-            title.setText(currentTitle);
+            title.setText(t);
         }
     }
 }
