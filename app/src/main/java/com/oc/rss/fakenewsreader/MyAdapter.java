@@ -1,7 +1,9 @@
 package com.oc.rss.fakenewsreader;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     List<FakeNews> list = FakeNewsList.all;
+    int currentPosition;
 
     @Override
     public int getItemCount() {
@@ -37,26 +40,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         String newsTitle = list.get(position).title;
+        currentPosition = position;
         holder.display(newsTitle);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-        private final WebView content;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
 
             title = ((TextView) itemView.findViewById(R.id.title));
-            content = ((WebView) itemView.findViewById(R.id.content));
+            //content = ((WebView) itemView.findViewById(R.id.content));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertDialog.Builder(itemView.getContext())
+/*                    new AlertDialog.Builder(itemView.getContext())
                             .setTitle(title.getText())
-                            .setMessage(content.get())
                             .show();
+*/
+                    Log.i("mylogs", "step 1");
+                    Intent myIntent = new Intent(view.getContext(), DetailsActivity.class);
+                    myIntent.putExtra("title", list.get(currentPosition).title);
+                    myIntent.putExtra("htmlContent", list.get(currentPosition).htmlContent);
+                    Log.i("mylogs", "step 2 (currentPosition="+currentPosition+")");
+                    view.getContext().startActivity(myIntent);
+                    Log.i("mylogs", "step 3");
                 }
             });
         }
