@@ -20,8 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // init the recyclerview
         final RecyclerView rv = (RecyclerView) findViewById(R.id.fakelist);
+        // load it in a linearlayout
         rv.setLayoutManager(new LinearLayoutManager(this));
+        // add the data
         rv.setAdapter(new MyAdapter());
     }
 }

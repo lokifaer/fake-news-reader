@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
+    // load the list
     List<FakeNews> list = FakeNewsList.all;
-    int currentPosition;
 
     @Override
     public int getItemCount() {
@@ -32,6 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // send the cells in the view holder
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.fakelist_cell, parent, false);
         return new MyViewHolder(view);
@@ -39,40 +40,40 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        String newsTitle = list.get(position).title;
-        currentPosition = position;
-        holder.display(newsTitle);
+        // display content of a cell according to the position in the list
+        holder.display(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
+        private int currentPosition;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
 
+            // get the current cell textview
             title = ((TextView) itemView.findViewById(R.id.title));
-            //content = ((WebView) itemView.findViewById(R.id.content));
 
+            // set a click event on the current cell
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-/*                    new AlertDialog.Builder(itemView.getContext())
-                            .setTitle(title.getText())
-                            .show();
-*/
-                    Log.i("mylogs", "step 1");
+                    // generate an intent to start another activity
                     Intent myIntent = new Intent(view.getContext(), DetailsActivity.class);
+                    // add the data (title and content)
                     myIntent.putExtra("title", list.get(currentPosition).title);
                     myIntent.putExtra("htmlContent", list.get(currentPosition).htmlContent);
-                    Log.i("mylogs", "step 2 (currentPosition="+currentPosition+")");
+                    // start the activity (DetailsActivity)
                     view.getContext().startActivity(myIntent);
-                    Log.i("mylogs", "step 3");
                 }
             });
         }
 
-        public void display(String t) {
-            title.setText(t);
+        public void display(int position) {
+            // save the current position for details part
+            currentPosition = position;
+            // set the title of the news to the textview of the current cell
+            title.setText(list.get(currentPosition).title);
         }
     }
 }
